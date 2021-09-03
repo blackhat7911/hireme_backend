@@ -1,0 +1,1 @@
+web: gunicorn hireme_backend.wsgi
