@@ -84,11 +84,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': 5432,
         'USER': 'postgres',
-        # 'STORAGE_ENGINE': 'MyISAM / INNODB / ETC'
-    },
-    # 'OPTIONS': {
-    #     "init_command": "SET foreign_key_checks=0;"
-    # }
+    }
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
