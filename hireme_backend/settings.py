@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 import datetime
+import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -77,17 +78,17 @@ WSGI_APPLICATION = 'hireme_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hireme_backend',
+        'PASSWORD': 'bishal',
         'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'USER': 'root',
-        'PASSWORD': '',
-        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC'
+        'PORT': 5432,
+        'USER': 'postgres',
+        # 'STORAGE_ENGINE': 'MyISAM / INNODB / ETC'
     },
-    'OPTIONS': {
-        "init_command": "SET foreign_key_checks=0;"
-    }
+    # 'OPTIONS': {
+    #     "init_command": "SET foreign_key_checks=0;"
+    # }
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -154,3 +155,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+django_heroku.settings(locals())
