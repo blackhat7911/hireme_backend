@@ -19,7 +19,7 @@ class Profile(models.Model):
         ('WORKER', 'WORKER'),
         ('SEEKER', 'SEEKER')
     )
-    user            = models.ForeignKey(User,related_name='user', on_delete=models.CASCADE, null=True)
+    user            = models.OneToOneField(User,related_name='user', on_delete=models.CASCADE, null=True)
     fullname        = models.CharField(max_length=255, null=True)
     phone           = models.CharField(max_length=16, null=True)
     profile         = models.FileField(upload_to='static/avtar/', null=True)
@@ -29,5 +29,5 @@ class Profile(models.Model):
     created_at      = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.fullname
+        return self.user.username
 

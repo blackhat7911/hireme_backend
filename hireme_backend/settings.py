@@ -13,6 +13,16 @@ import os
 from pathlib import Path
 import datetime
 import django_heroku
+import environ
+import dj_database_url
+
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
+
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +31,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#ik_n(cwz)vryga@47mnzzbdiju62i@ft6c#*22s&e$578))ox'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'hiremebackend.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', env("ALLOWED_HOST")]
 
 # Application definition
 
@@ -40,6 +50,9 @@ INSTALLED_APPS = [
     'user',
     'work',
     'rest_framework',
+    'corsheaders',
+    # 'rest_framework.authtoken',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -80,18 +93,29 @@ WSGI_APPLICATION = 'hireme_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hireme_backend',
-        'HOST': '127.0.0.1',
-        'PORT': 5432,
-        'USER': 'postgres',
-        'PASSWORD': 'bishal',
+        'NAME': env("DB_NAME"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'hireme_backend',
+#         'HOST': '127.0.0.1',
+#         'PORT': 3306,
+#         'USER': 'root',
+#         'PASSWORD': '',
+#     }
+# }
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = 'connectmee97@gmail.com' # email id
-EMAIL_HOST_PASSWORD = 'ConnectMe@7911' #password
+EMAIL_HOST_USER = env("EMAIL_HOST_USER") # email id
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD") #password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -100,7 +124,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        'knox.auth.TokenAuthentication',
     ),
 }
 
