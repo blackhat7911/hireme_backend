@@ -5,14 +5,21 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import User
 
-class Coordinates(models.Model):
-    lat     = models.FloatField()
-    lang    = models.FloatField()
-
 class Location(models.Model):
+    user        = models.OneToOneField(User,related_name='user_location', on_delete=models.CASCADE, null=True)
     city        = models.CharField(max_length=255, null=True)
     zipCode     = models.IntegerField(null=True)
-    Coordinates = models.ForeignKey(Coordinates, on_delete=models.DO_NOTHING, null=True)
+
+    def __str__(self):
+        return str(self.city)
+
+class Coordinates(models.Model):
+    location    = models.OneToOneField(Location,related_name='location_coordinates', on_delete=models.CASCADE, null=True)
+    lat         = models.FloatField()
+    lang        = models.FloatField()
+
+    def __str__(self):
+        return str(self.lat) + ", " + str(self.lang)
 
 class Profile(models.Model):
     USER_TYPE = (
@@ -25,9 +32,11 @@ class Profile(models.Model):
     profile         = models.FileField(upload_to='static/avtar/', null=True)
     date_of_birth   = models.DateField(null=True)
     accountType     = models.CharField(max_length=30,null=True,choices=USER_TYPE, blank=True)
+    work            = models.CharField(max_length=255, null=True, blank=True)
     location        = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True, blank=True)
     created_at      = models.DateTimeField(auto_now_add=True)
+    updated_at      = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return str(self.user.username)
 

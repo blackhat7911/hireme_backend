@@ -20,23 +20,20 @@ env = environ.Env()
 # reading .env file
 environ.Env.read_env()
 
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', env("ALLOWED_HOST")]
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', env("ALLOWED_HOST"), '*']
+
+DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 
 # Application definition
 
@@ -53,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # 'rest_framework.authtoken',
     'knox',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -92,7 +90,7 @@ WSGI_APPLICATION = 'hireme_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': env("DB_NAME"),
         'HOST': env("DB_HOST"),
         'PORT': env("DB_PORT"),
@@ -100,6 +98,14 @@ DATABASES = {
         'PASSWORD': env("DB_PASSWORD"),
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -127,6 +133,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
         'knox.auth.TokenAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 # Password validation
