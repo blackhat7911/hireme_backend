@@ -14,6 +14,8 @@ class WorkListView(generics.ListCreateAPIView):
     queryset = Work.objects.all()
     serializer_class = WorkSerializer
     permission_classes = (permissions.AllowAny,)
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['worker_id', 'seeker_id']
 
 class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -23,26 +25,6 @@ class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = WorkSerializer
     permission_classes = (permissions.AllowAny,)
 
-class WorkerWorkList(generics.ListAPIView):
-    """
-    View for listing all work for a specific user
-    """
-    permission_classes = (permissions.AllowAny,)
-    queryset = Work.objects.all()
-    serializer_class = WorkSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['worker_id']
-
-class SeekerWorkList(generics.ListAPIView):
-    """
-    View for listing all work for a specific user
-    """
-    permission_classes = (permissions.AllowAny,)
-    queryset = Work.objects.all()
-    serializer_class = WorkSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['seeker_id']
-        
 class RequestList(generics.ListCreateAPIView):
     """
     View for listing all requests
@@ -51,6 +33,6 @@ class RequestList(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['id','seeker_id', 'worker_id']
+    filter_fields = ['id', 'seeker_id', 'worker_id']
 
      
