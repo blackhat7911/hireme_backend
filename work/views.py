@@ -6,6 +6,8 @@ from rest_framework import permissions
 from user.serializers import UserSerializer
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.http import HttpResponse, JsonResponse
+from rest_framework.parsers import JSONParser
 
 class WorkListView(generics.ListCreateAPIView):
     """
@@ -15,7 +17,7 @@ class WorkListView(generics.ListCreateAPIView):
     serializer_class = WorkSerializer
     permission_classes = (permissions.AllowAny,)
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['worker_id', 'seeker_id']
+    filter_fields = []
 
 class WorkDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -33,6 +35,14 @@ class RequestList(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['id', 'seeker_id', 'worker_id']
+    filter_fields = ['seeker_id', 'worker_id']
 
-     
+class RequestDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View for displaying a single work
+    """
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
+    permission_classes = (permissions.AllowAny,)
+
+

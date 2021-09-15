@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from user.models import Profile
+from user.models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -24,10 +24,11 @@ class LoginSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("Invalid Details.")
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Profile
         fields = '__all__'
+        depth = 2
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,3 +39,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
         return user
+
+class CoordinatesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coordinates
+        fields = '__all__'
+
+class LocationSerializer(serializers.ModelSerializer):
+    coordinates = CoordinatesSerializer
+    class Meta:
+        model = Location
+        fields = '__all__'
+

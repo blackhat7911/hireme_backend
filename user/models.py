@@ -5,21 +5,22 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import User
 
-class Location(models.Model):
-    user        = models.OneToOneField(User,related_name='user_location', on_delete=models.CASCADE, null=True)
-    city        = models.CharField(max_length=255, null=True)
-    zipCode     = models.IntegerField(null=True)
-
-    def __str__(self):
-        return str(self.city)
-
 class Coordinates(models.Model):
-    location    = models.OneToOneField(Location,related_name='location_coordinates', on_delete=models.CASCADE, null=True)
     lat         = models.FloatField()
     lang        = models.FloatField()
 
     def __str__(self):
         return str(self.lat) + ", " + str(self.lang)
+class Location(models.Model):
+    user        = models.OneToOneField(User,related_name='user_location', on_delete=models.CASCADE, null=True)
+    city        = models.CharField(max_length=255, null=True)
+    zipCode     = models.IntegerField(null=True)
+    coordinates    = models.OneToOneField(Coordinates,related_name='location_coordinates', on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return str(self.city)
+
+
 
 class Profile(models.Model):
     USER_TYPE = (

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from user.models import *
-from user.serializers import ProfileSerializer, UserSerializer, RegisterSerializer, LoginSerializer
+from user.serializers import *
 from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -23,6 +23,28 @@ class ProfileView(generics.ListCreateAPIView):
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+    permission_classes = (permissions.AllowAny,)
+
+class LocationView(generics.ListCreateAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = (permissions.AllowAny,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['city','zipCode']
+
+class LocationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = (permissions.AllowAny,)
+
+class CoordinatesView(generics.ListCreateAPIView):
+    queryset = Coordinates.objects.all()
+    serializer_class = CoordinatesSerializer
+    permission_classes = (permissions.AllowAny,)
+
+class CoordinatesDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Coordinates.objects.all()
+    serializer_class = CoordinatesSerializer
     permission_classes = (permissions.AllowAny,)
 
 class RegisterAPI(generics.GenericAPIView):
@@ -48,7 +70,6 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data
         profile = Profile.objects.get(user=user)
         location = Location.objects.get(user=user)
-        coordinates = Coordinates.objects.get(location=location)
         return Response({
             "result": "success",
             "datas": {
@@ -62,9 +83,9 @@ class LoginAPI(KnoxLoginView):
                         "name": location.city,
                         "zipCode": location.zipCode,
                         "coordinates": {
-                            "id": coordinates.id,
-                            "lat": coordinates.lat,
-                            "lng": coordinates.lang
+                            "id": location.coordinates.id,
+                            "lat": location.coordinates.lat,
+                            "lng": location.coordinates.lang
                         }
                     },
                 "dob": profile.date_of_birth,

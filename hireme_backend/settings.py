@@ -15,6 +15,7 @@ import datetime
 import django_heroku
 import environ
 import dj_database_url
+from decouple import config
 
 env = environ.Env()
 # reading .env file
@@ -34,7 +35,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', env("ALLOWED_HOST"), '*']
 
 DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
-
 # Application definition
 
 INSTALLED_APPS = [
