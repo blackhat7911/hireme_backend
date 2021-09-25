@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-#ik_n(cwz)vryga@47mnzzbdiju62i@ft6c#*22s&e$578))ox
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '*', 'hiremebackend.herokuapp.com']
 
 DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 # Application definition
@@ -91,14 +91,13 @@ WSGI_APPLICATION = 'hireme_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env("DB_NAME"),
-        'HOST': env("DB_HOST"),
-        'PORT': env("DB_PORT"),
-        'USER': env("DB_USER"),
-        'PASSWORD': env("DB_PASSWORD"),
+        'NAME': 'hiremebackend',
+        'HOST': '127.0.0.1',
+        'PORT': 3306,
+        'USER': 'root',
+        'PASSWORD': '',
     }
 }
-
 
 # DATABASES = {
 #     'default': {
@@ -107,21 +106,11 @@ DATABASES = {
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'hireme_backend',
-#         'HOST': '127.0.0.1',
-#         'PORT': 3306,
-#         'USER': 'root',
-#         'PASSWORD': '',
-#     }
-# }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = env("EMAIL_HOST_USER") # email id
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD") #password
+EMAIL_HOST_USER = 'connectmee97@gmail.com' # email id
+EMAIL_HOST_PASSWORD = 'ConnectMe@7911' #password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
