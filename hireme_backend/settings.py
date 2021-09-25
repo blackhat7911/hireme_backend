@@ -91,11 +91,11 @@ WSGI_APPLICATION = 'hireme_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': str(env("DB_NAME")),
-        'HOST': str(env("DB_HOST")),
-        'PORT': str(env("DB_PORT")),
-        'USER': str(env("DB_USER")),
-        'PASSWORD': str(env("DB_PASSWORD")),
+        'NAME': env("DB_NAME"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
     }
 }
 
@@ -120,8 +120,8 @@ DATABASES = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = str(env("EMAIL_HOST_USER")) # email id
-EMAIL_HOST_PASSWORD = str(env("EMAIL_HOST_PASSWORD")) #password
+EMAIL_HOST_USER = env("EMAIL_HOST_USER") # email id
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD") #password
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
