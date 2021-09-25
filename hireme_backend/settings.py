@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-#ik_n(cwz)vryga@47mnzzbdiju62i@ft6c#*22s&e$578))ox
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', str(env("ALLOWED_HOST")), '*']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', '*']
 
 DATABASES = {'default': dj_database_url.config(conn_max_age=600)}
 # Application definition
